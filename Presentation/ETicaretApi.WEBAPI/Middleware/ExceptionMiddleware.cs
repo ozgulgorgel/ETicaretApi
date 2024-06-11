@@ -38,6 +38,7 @@ namespace ETicaretApi.WEBAPI.Middleware
                 var sonuc=  await _context.SaveChangesAsync();
 
                 context.Response.ContentType = "application/json";
+
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(new { Message = ex.Message }));
             }
