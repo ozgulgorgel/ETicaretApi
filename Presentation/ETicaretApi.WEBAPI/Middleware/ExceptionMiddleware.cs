@@ -1,6 +1,7 @@
 ﻿using ETicaretAPI.Persistence.Contexts;
 using System;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace ETicaretApi.WEBAPI.Middleware
 {
@@ -37,8 +38,7 @@ namespace ETicaretApi.WEBAPI.Middleware
                 var sonuc=  await _context.SaveChangesAsync();
 
                 context.Response.ContentType = "application/json";
-                int statusCode = 500;
-                context.Response.StatusCode = statusCode;
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(new { Message = ex.Message }));
             }
         }
