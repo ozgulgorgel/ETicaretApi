@@ -1,4 +1,5 @@
-﻿using ETicaretApi.Application.Repositories;
+﻿using ETicaretApi.Application.Abstractions;
+using ETicaretApi.Application.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,11 @@ namespace ETicaretApi.Application.Features.Commands.Product.DeleteProduct
     {
 
         private readonly IProductWriteRepository _productWriteRepository;
+        readonly ICacheService _cacheService;
 
-        public DeleteProductCommandHandler(IProductWriteRepository productWriteRepository)
+        public DeleteProductCommandHandler(IProductWriteRepository productWriteRepository, ICacheService cacheService)
         {
+            _cacheService = cacheService;
             _productWriteRepository = productWriteRepository;
         }
 
@@ -22,6 +25,7 @@ namespace ETicaretApi.Application.Features.Commands.Product.DeleteProduct
         {
             await _productWriteRepository.RemoveAsync(request.Id);
             await _productWriteRepository.SaveAsync();
+            _cacheService.Remove("product");
             return new();
 
         }

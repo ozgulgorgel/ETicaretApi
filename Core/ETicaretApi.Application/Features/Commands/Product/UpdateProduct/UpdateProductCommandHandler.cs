@@ -1,4 +1,5 @@
-﻿using ETicaretApi.Application.Repositories;
+﻿using ETicaretApi.Application.Abstractions;
+using ETicaretApi.Application.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,13 @@ namespace ETicaretApi.Application.Features.Commands.Product.UpdateProduct
 
          private  readonly IProductReadRepository _productreadrepository;
         private readonly IProductWriteRepository _productwriterepository;
+        readonly ICacheService _cacheService;
 
-        public UpdateProductCommandHandler(IProductWriteRepository productwriterepository, IProductReadRepository productreadrepository)
+        public UpdateProductCommandHandler(IProductWriteRepository productwriterepository, IProductReadRepository productreadrepository, ICacheService cacheService)
         {
             _productwriterepository = productwriterepository;
-            _productreadrepository = productreadrepository; 
-           
+            _productreadrepository = productreadrepository;
+            _cacheService = cacheService;
         }
 
        
@@ -31,6 +33,7 @@ namespace ETicaretApi.Application.Features.Commands.Product.UpdateProduct
             p.Name = request.Name;
            _productwriterepository.Update(p);
             _productwriterepository.SaveAsync();
+            _cacheService.Remove("product");
             return new();
 
         }

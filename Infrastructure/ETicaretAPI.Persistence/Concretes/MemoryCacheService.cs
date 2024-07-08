@@ -32,7 +32,7 @@ namespace ETicaretAPI.Persistence.Concretes
         {
             var cacheEntry = new MemoryCacheEntryOptions
             {
-                AbsoluteExpirationRelativeToNow = expiry ?? TimeSpan.FromHours(1),
+                AbsoluteExpirationRelativeToNow = expiry ?? TimeSpan.FromSeconds(1),
             };
             _memorycache.Set<T>(key, value, cacheEntry);
         }

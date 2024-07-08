@@ -36,7 +36,6 @@ namespace ETicaretApi.Application.Features.Queries.Product.GetByIdProduct
             response.Name = product.Name;
             response.Price = product.Price;
             response.Stock = product.Stock;
-            _cacheservice.Remove("product");
             return response;
 
         }
